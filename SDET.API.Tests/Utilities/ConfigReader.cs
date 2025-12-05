@@ -12,7 +12,7 @@ namespace SDET.API.Tests.Utilities
 
         public static string Get(string key)
         {
-            return config[key];
+            return config[key] ?? throw new InvalidOperationException("BaseUrl not set");
         }
     }
 }
