@@ -21,4 +21,16 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Clients\" />
+    <None Remove="Models\" />
+    <None Remove="Tests\" />
+    <None Remove="Utilities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Clients\" />
+    <Folder Include="Models\" />
+    <Folder Include="Tests\" />
+    <Folder Include="Utilities\" />
+  </ItemGroup>
 </Project>
