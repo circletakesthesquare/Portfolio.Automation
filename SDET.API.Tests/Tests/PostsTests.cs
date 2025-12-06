@@ -1,12 +1,18 @@
 ﻿using SDET.API.Tests.Clients;
 using SDET.API.Tests.Models;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace SDET.API.Tests.Tests
 {
-    public class PostsTests
+    public class PostsTests : TestBase
     {
-        private readonly PostsClient _client = new PostsClient();
+        private readonly PostsClient _client;
+
+        public PostsTests(ITestOutputHelper output) : base(output)
+        {
+            _client = new PostsClient(Logger);
+        }
 
         [Fact]
         public async Task Can_Get_Post_By_Id()
