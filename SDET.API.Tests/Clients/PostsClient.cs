@@ -1,7 +1,11 @@
 ﻿using System;
-using System.Net.Http.Json;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 using SDET.API.Tests.Models;
 using SDET.API.Tests.Utilities;
+using Serilog;
 
 namespace SDET.API.Tests.Clients
 {
@@ -9,28 +13,41 @@ namespace SDET.API.Tests.Clients
     {
         private readonly HttpClient _client;
 
-        public PostsClient()
+        public PostsClient(ILogger logger)
         {
-            _client = new HttpClient
+            var handler = new LoggingHttpHandler(logger);
+            _client = new HttpClient(handler)
             {
                 BaseAddress = new Uri(ConfigReader.Get("BaseUrl")),
                 Timeout = TimeSpan.FromSeconds(Convert.ToInt32(ConfigReader.Get("TimeoutSeconds")))
             };
         }
 
+        private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
+
         public async Task<PostModel?> GetPost(int id)
         {
-            return await _client.GetFromJsonAsync<PostModel>($"/posts/{id}");
+            var response = await _client.GetAsync($"/posts/{id}");
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<PostModel>(content, _jsonOptions);
         }
 
         public async Task<HttpResponseMessage> CreatePost(PostModel post)
         {
-            return await _client.PostAsJsonAsync("/posts", post);
+            var json = JsonSerializer.Serialize(post, _jsonOptions);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            return await _client.PostAsync("/posts", content);
         }
 
         public async Task<HttpResponseMessage> UpdatePost(int id, PostModel post)
         {
-            return await _client.PutAsJsonAsync($"/posts/{id}", post);
+            var json = JsonSerializer.Serialize(post, _jsonOptions);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            return await _client.PutAsync($"/posts/{id}", content);
         }
 
         public async Task<HttpResponseMessage> DeletePost(int id)

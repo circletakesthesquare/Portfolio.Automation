@@ -414,3 +414,6 @@ secrets.json
 
 # Test results
 TestResults/
+
+# Logs
+logs/
