@@ -1,8 +1,5 @@
-﻿using System;
-using System.Net.Http;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using SDET.API.Tests.Models;
 using SDET.API.Tests.Utilities;
 using Serilog;
@@ -18,8 +15,8 @@ namespace SDET.API.Tests.Clients
             var handler = new LoggingHttpHandler(logger);
             _client = new HttpClient(handler)
             {
-                BaseAddress = new Uri(ConfigReader.Get("BaseUrl")),
-                Timeout = TimeSpan.FromSeconds(Convert.ToInt32(ConfigReader.Get("TimeoutSeconds")))
+                BaseAddress = new Uri(Config.BaseUrl),
+                Timeout = TimeSpan.FromSeconds(Convert.ToInt32(Config.TimeoutSeconds))
             };
         }
 

@@ -1,0 +1,25 @@
+{
+  "Current": "LOCAL",
+  "Environments": {
+    "LOCAL": {
+      "BaseUrl": "https://jsonplaceholder.typicode.com",
+      "TimeoutSeconds": 30,
+      "LogLevel": "Verbose"
+    },
+    "QA": {
+      "BaseUrl": "https://qa-api.mycompany.com",
+      "TimeoutSeconds": 30,
+      "LogLevel": "Information"
+    },
+    "UAT": {
+      "BaseUrl": "https://uat-api.mycompany.com",
+      "TimeoutSeconds": 30,
+      "LogLevel": "Information"
+    },
+    "PROD": {
+      "BaseUrl": "https://api.mycompany.com",
+      "TimeoutSeconds": 15,
+      "LogLevel": "Warning"
+    }
+  }
+}
