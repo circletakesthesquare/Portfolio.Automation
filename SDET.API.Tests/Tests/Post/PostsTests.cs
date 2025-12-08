@@ -28,7 +28,7 @@ namespace SDET.API.Tests.Tests
         }
 
         [Fact]
-        [Trait("Category", Categories.Post)]
+        [Trait("Category", Categories.Create)]
         [Trait("Category", Categories.Post)]
         [Trait("Category", Categories.Positive)]
         [Trait("Category", Categories.Integration)]
