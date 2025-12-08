@@ -1,4 +1,5 @@
-﻿using SDET.API.Tests.Clients;
+﻿using FluentAssertions;
+using SDET.API.Tests.Clients;
 using SDET.API.Tests.Utilities;
 using Xunit.Abstractions;
 
@@ -20,10 +21,10 @@ namespace SDET.API.Tests.Tests
         [Trait("Category", Categories.Integration)]
         public async Task Get_Post_By_Id()
         {
-            var post = await _client.GetPostById(1);
+            var randomId = new Random().Next(1,101); // assuming IDs are between 1 and 100
+            var post = await _client.GetPostById(randomId);
 
-            Assert.NotNull(post);
-            Assert.Equal(1, post.Id);
+            post.ShouldExist(randomId);
         }
 
         [Fact]
@@ -34,13 +35,11 @@ namespace SDET.API.Tests.Tests
         public async Task Create_Post()
         {
             // use fixture to generate post with test data
-            var newPost = GeneratePost();
+            var newPostRequest = GeneratePost();
 
-            var response = await _client.CreatePost(newPost);
+            var response = await _client.CreatePost(newPostRequest);
 
-            Assert.NotNull(response);
-            Assert.Equal(newPost.Title, response.Title);
-            Assert.Equal(newPost.Body, response.Body);     
+            response.ShouldMatch(newPostRequest);
         }
 
         [Fact]
@@ -51,12 +50,11 @@ namespace SDET.API.Tests.Tests
         public async Task Update_Post()
         {
             // use fixture to generate updated post with test data
-            var updatedPost = GenerateUpdatedPost(1);
+            var updatedPostRequest = GenerateUpdatedPost(1);
 
-            var response = await _client.UpdatePost(1, updatedPost);
+            var response = await _client.UpdatePost(1, updatedPostRequest);
 
-            Assert.NotNull(response);
-            Assert.Equal(updatedPost.Title, response.Title);
+            response.ShouldMatch(updatedPostRequest);
         }
 
         [Fact]
@@ -65,10 +63,14 @@ namespace SDET.API.Tests.Tests
         [Trait("Category", Categories.Positive)]
         [Trait("Category", Categories.Integration)]
         public async Task Delete_Post()
-        {
-            var response = await _client.DeletePost(1);
+        {   
+            var idToDelete = new Random().Next(1,101); // assuming IDs are between 1 and 100
+            var response = await _client.DeletePost(idToDelete);
 
-            Assert.True(response.IsSuccessStatusCode);
+            response.IsSuccessStatusCode.Should().BeTrue("Expected successful deletion response.");
+
+            var deletedPost = await _client.GetPostById(idToDelete);
+            deletedPost.Should().BeNull("Expected post to be deleted and not found.");
         }
     }
 }
