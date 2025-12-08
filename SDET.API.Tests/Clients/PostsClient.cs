@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
 using SDET.API.Tests.Models;
+using SDET.API.Tests.Utilities;
 
 namespace SDET.API.Tests.Clients
 {
@@ -29,7 +30,7 @@ namespace SDET.API.Tests.Clients
         /// <returns>The post if found; otherwise, null.</returns>
         public async Task<Post?> GetPostById(int id)
         {
-            var response = await _client.GetAsync($"/posts/{id}");
+            var response = await _client.GetAsync(Endpoints.GetPost(id));
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<Post>(content, _jsonOptions);
@@ -44,7 +45,7 @@ namespace SDET.API.Tests.Clients
         {
             var json = JsonSerializer.Serialize(post, _jsonOptions);
             var requestBody = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync("/posts", requestBody);
+            var response = await _client.PostAsync(Endpoints.CreatePost, requestBody);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<Post?>(content, _jsonOptions);
@@ -60,7 +61,7 @@ namespace SDET.API.Tests.Clients
         {
             var json = JsonSerializer.Serialize(post, _jsonOptions);
             var requestBody = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _client.PutAsync($"/posts/{id}", requestBody);
+            var response = await _client.PutAsync(Endpoints.UpdatePost(id), requestBody);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<Post?>(content, _jsonOptions);
@@ -74,7 +75,7 @@ namespace SDET.API.Tests.Clients
         /// <exception cref="HttpRequestException">Thrown when the delete operation fails.</exception>
         public async Task<HttpResponseMessage> DeletePost(int id)
         {
-            var response = await _client.DeleteAsync($"/posts/{id}");
+            var response = await _client.DeleteAsync(Endpoints.DeletePost(id));
             return response.IsSuccessStatusCode
                 ? response
                 : throw new HttpRequestException($"Failed to delete post with ID {id}. Status code: {response.StatusCode}");
