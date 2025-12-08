@@ -1,4 +1,3 @@
-// ...existing code...
 # Portfolio.Automation.Framework
 
 Overview
@@ -21,6 +20,7 @@ Clients
 
 Core
 - Test base: [`SDET.API.Tests.Core.TestBase`](SDET.API.Tests/Core/TestBase.cs) — [SDET.API.Tests/Core/TestBase.cs](SDET.API.Tests/Core/TestBase.cs)
+- Posts test base: [`SDET.API.Tests.Core.PostsTestBase`](SDET.API.Tests/Core/PostsTestBase.cs) — [PostsTestBase.cs](SDET.API.Tests/Core/PostsTestBase.cs)
 
 Logging
 - HTTP logging handler: [`SDET.API.Tests.Logging.LoggingHttpHandler`](SDET.API.Tests/Logging/LoggingHttpHandler.cs) — [SDET.API.Tests/Logging/LoggingHttpHandler.cs](SDET.API.Tests/Logging/LoggingHttpHandler.cs)
@@ -34,10 +34,11 @@ Tests
 Utilities
 - Configuration helper: [`SDET.API.Tests.Utilities.Config`](SDET.API.Tests/Utilities/Config.cs) — [SDET.API.Tests/Utilities/Config.cs](SDET.API.Tests/Utilities/Config.cs)
 - Environment data: [SDET.API.Tests/Utilities/Environment.json](SDET.API.Tests/Utilities/Environment.json)
+- Test categories: [`SDET.API.Tests.Utilities.Categories`](SDET.API.Tests/Utilities/Categories.cs) — [Categories.cs](SDET.API.Tests/Utilities/Categories.cs)
 
 Build/artifacts
-- Build output: [SDET.API.Tests/bin](SDET.API.Tests/bin/)
-- MSBuild outputs and assets: [SDET.API.Tests/obj/project.assets.json](SDET.API.Tests/obj/project.assets.json), [SDET.API.Tests/obj/SDET.API.Tests.csproj.nuget.dgspec.json](SDET.API.Tests/obj/SDET.API.Tests.csproj.nuget.dgspec.json), [SDET.API.Tests/obj/SDET.API.Tests.csproj.nuget.g.props](SDET.API.Tests/obj/SDET.API.Tests.csproj.nuget.g.props), [SDET.API.Tests/obj/SDET.API.Tests.csproj.nuget.g.targets](SDET.API.Tests/obj/SDET.API.Tests.csproj.nuget.g.targets), [SDET.API.Tests/obj/Debug/net8.0](SDET.API.Tests/obj/Debug/net8.0/)
+- Build output: [SDET.API.Tests/bin](SDET.API.Tests/bin/)  
+- MSBuild outputs and assets: [obj folder](SDET.API.Tests/obj/)
 
 Getting started
 ---------------
@@ -46,13 +47,29 @@ Getting started
    dotnet restore Portfolio.Automation.Framework.sln
    dotnet build Portfolio.Automation.Framework.sln -c Debug
 
-   Run all tests:
+2. Run all tests:
    dotnet test SDET.API.Tests/SDET.API.Tests.csproj -c Debug
 
-Run a single test (example):
-dotnet test SDET.API.Tests/SDET.API.Tests.csproj --filter FullyQualifiedName~SDET.API.Tests.Tests.PostsTests
+3. Run a single test (example):
+   dotnet test SDET.API.Tests/SDET.API.Tests.csproj --filter FullyQualifiedName~SDET.API.Tests.Tests.PostsTests
+
+4. Run tests by category (using the Category trait):
+   # Run only positive tests
+   dotnet test --filter "Category=Positive"
+
+   # Run only negative tests
+   dotnet test --filter "Category=Negative"
+
+   # Combine multiple traits
+   dotnet test --filter "Category=Positive&Category=Get"
+
+   Test categories are defined in Categories.cs
+   and used via [Trait("Category", Categories.XYZ)].
 
 Notes
+---------------
 Tests rely on configuration in SDET.API.Tests/Utilities/Environment.json and helpers in SDET.API.Tests.Utilities.Config.
 The HTTP logging behavior is implemented in SDET.API.Tests.Logging.LoggingHttpHandler.
 The API client lives at SDET.API.Tests.Clients.PostsClient and uses models like SDET.API.Tests.Models.PostModel.
+Randomized test data is generated using AutoFixture via SDET.API.Tests.Tests.PostsTestBase.
+You can group/filter tests by category in Visual Studio Test Explorer or via CLI.
