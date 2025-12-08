@@ -1,4 +1,4 @@
-namespace SDET.API.Tests.Utilities
+namespace API.Tests.Utilities
 {
     public static class Categories
     {

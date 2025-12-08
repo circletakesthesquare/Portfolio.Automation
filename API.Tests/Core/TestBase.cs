@@ -1,8 +1,8 @@
-using SDET.API.Tests.Utilities;
+using API.Tests.Utilities;
 using Serilog;
 using Xunit.Abstractions;
 
-namespace SDET.API.Tests
+namespace API.Tests
 {
     /// <summary>
     /// Base class for API tests, providing common setup and utilities.

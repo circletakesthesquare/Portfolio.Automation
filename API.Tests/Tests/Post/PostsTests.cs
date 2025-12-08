@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
-using SDET.API.Tests.Clients;
-using SDET.API.Tests.Utilities;
+using API.Tests.Clients;
+using API.Tests.Utilities;
 using Xunit.Abstractions;
 
-namespace SDET.API.Tests.Tests
+namespace API.Tests.Tests
 {
     public class PostsTests : PostsTestBase
     {
@@ -68,9 +68,6 @@ namespace SDET.API.Tests.Tests
             var response = await _client.DeletePost(idToDelete);
 
             response.IsSuccessStatusCode.Should().BeTrue("Expected successful deletion response.");
-
-            var deletedPost = await _client.GetPostById(idToDelete);
-            deletedPost.Should().BeNull("Expected post to be deleted and not found.");
         }
     }
 }

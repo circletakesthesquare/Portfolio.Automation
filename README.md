@@ -2,7 +2,7 @@
 
 Overview
 --------
-A small .NET API automation framework for testing API endpoints. Tests and framework code live under the `SDET.API.Tests` project. The framework contains an API client, request/response models, logging helpers, test base classes, and configuration utilities.
+A small .NET API automation framework for testing API endpoints. Tests and framework code live under the `API.Tests` project. The framework contains an API client, request/response models, logging helpers, test base classes, and configuration utilities.
 
 Project files
 -------------
@@ -10,35 +10,35 @@ Project files
 - [Portfolio.Automation.Framework.sln](Portfolio.Automation.Framework.sln)
 - [README.md](README.md)
 
-SDET.API.Tests
+API.Tests
 --------------
-- Project file: [SDET.API.Tests/SDET.API.Tests.csproj](SDET.API.Tests/SDET.API.Tests.csproj)
-- Global usings: [SDET.API.Tests/Usings.cs](SDET.API.Tests/Usings.cs)
+- Project file: [API.Tests/API.Tests.csproj](API.Tests/API.Tests.csproj)
+- Global usings: [API.Tests/Usings.cs](API.Tests/Usings.cs)
 
 Clients
-- API client: [`SDET.API.Tests.Clients.PostsClient`](SDET.API.Tests/Clients/PostsClient.cs) — [SDET.API.Tests/Clients/PostsClient.cs](SDET.API.Tests/Clients/PostsClient.cs)
+- API client: [`API.Tests.Clients.PostsClient`](API.Tests/Clients/PostsClient.cs) — [API.Tests/Clients/PostsClient.cs](API.Tests/Clients/PostsClient.cs)
 
 Core
-- Test base: [`SDET.API.Tests.Core.TestBase`](SDET.API.Tests/Core/TestBase.cs) — [SDET.API.Tests/Core/TestBase.cs](SDET.API.Tests/Core/TestBase.cs)
-- Posts test base: [`SDET.API.Tests.Core.PostsTestBase`](SDET.API.Tests/Core/PostsTestBase.cs) — [PostsTestBase.cs](SDET.API.Tests/Core/PostsTestBase.cs)
+- Test base: [`API.Tests.Core.TestBase`](API.Tests/Core/TestBase.cs) — [API.Tests/Core/TestBase.cs](API.Tests/Core/TestBase.cs)
+- Posts test base: [`API.Tests.Core.PostsTestBase`](API.Tests/Core/PostsTestBase.cs) — [PostsTestBase.cs](API.Tests/Core/PostsTestBase.cs)
 
 Logging
-- HTTP logging handler: [`SDET.API.Tests.Logging.LoggingHttpHandler`](SDET.API.Tests/Logging/LoggingHttpHandler.cs) — [SDET.API.Tests/Logging/LoggingHttpHandler.cs](SDET.API.Tests/Logging/LoggingHttpHandler.cs)
+- HTTP logging handler: [`API.Tests.Logging.LoggingHttpHandler`](API.Tests/Logging/LoggingHttpHandler.cs) — [API.Tests/Logging/LoggingHttpHandler.cs](API.Tests/Logging/LoggingHttpHandler.cs)
 
 Models
-- Post model: [`SDET.API.Tests.Models.PostModel`](SDET.API.Tests/Models/PostModel.cs) — [SDET.API.Tests/Models/PostModel.cs](SDET.API.Tests/Models/PostModel.cs)
+- Post model: [`API.Tests.Models.PostModel`](API.Tests/Models/PostModel.cs) — [API.Tests/Models/PostModel.cs](API.Tests/Models/PostModel.cs)
 
 Tests
-- Test(s): [`SDET.API.Tests.Tests.PostsTests`](SDET.API.Tests/Tests/PostsTests.cs) — [SDET.API.Tests/Tests/PostsTests.cs](SDET.API.Tests/Tests/PostsTests.cs)
+- Test(s): [`API.Tests.Tests.PostsTests`](API.Tests/Tests/PostsTests.cs) — [API.Tests/Tests/PostsTests.cs](API.Tests/Tests/PostsTests.cs)
 
 Utilities
-- Configuration helper: [`SDET.API.Tests.Utilities.Config`](SDET.API.Tests/Utilities/Config.cs) — [SDET.API.Tests/Utilities/Config.cs](SDET.API.Tests/Utilities/Config.cs)
-- Environment data: [SDET.API.Tests/Utilities/Environment.json](SDET.API.Tests/Utilities/Environment.json)
-- Test categories: [`SDET.API.Tests.Utilities.Categories`](SDET.API.Tests/Utilities/Categories.cs) — [Categories.cs](SDET.API.Tests/Utilities/Categories.cs)
+- Configuration helper: [`API.Tests.Utilities.Config`](API.Tests/Utilities/Config.cs) — [API.Tests/Utilities/Config.cs](API.Tests/Utilities/Config.cs)
+- Environment data: [API.Tests/Utilities/Environment.json](API.Tests/Utilities/Environment.json)
+- Test categories: [`API.Tests.Utilities.Categories`](API.Tests/Utilities/Categories.cs) — [Categories.cs](API.Tests/Utilities/Categories.cs)
 
 Build/artifacts
-- Build output: [SDET.API.Tests/bin](SDET.API.Tests/bin/)  
-- MSBuild outputs and assets: [obj folder](SDET.API.Tests/obj/)
+- Build output: [API.Tests/bin](API.Tests/bin/)  
+- MSBuild outputs and assets: [obj folder](API.Tests/obj/)
 
 Getting started
 ---------------
@@ -48,10 +48,10 @@ Getting started
    dotnet build Portfolio.Automation.Framework.sln -c Debug
 
 2. Run all tests:
-   dotnet test SDET.API.Tests/SDET.API.Tests.csproj -c Debug
+   dotnet test API.Tests/API.Tests.csproj -c Debug
 
 3. Run a single test (example):
-   dotnet test SDET.API.Tests/SDET.API.Tests.csproj --filter FullyQualifiedName~SDET.API.Tests.Tests.PostsTests
+   dotnet test API.Tests/API.Tests.csproj --filter FullyQualifiedName~API.Tests.Tests.PostsTests
 
 4. Run tests by category (using the Category trait):
    # Run only positive tests
@@ -68,8 +68,8 @@ Getting started
 
 Notes
 ---------------
-- Tests rely on configuration in SDET.API.Tests/Utilities/Environment.json and helpers in SDET.API.Tests.Utilities.Config.
-- The HTTP logging behavior is implemented in SDET.API.Tests.Logging.LoggingHttpHandler.
-- The API client lives at SDET.API.Tests.Clients.PostsClient and uses models like SDET.API.Tests.Models.PostModel.
-- Randomized test data is generated using AutoFixture via SDET.API.Tests.Tests.PostsTestBase.
+- Tests rely on configuration in API.Tests/Utilities/Environment.json and helpers in API.Tests.Utilities.Config.
+- The HTTP logging behavior is implemented in API.Tests.Logging.LoggingHttpHandler.
+- The API client lives at API.Tests.Clients.PostsClient and uses models like API.Tests.Models.PostModel.
+- Randomized test data is generated using AutoFixture via API.Tests.Tests.PostsTestBase.
 - You can group/filter tests by category in Visual Studio Test Explorer or via CLI.

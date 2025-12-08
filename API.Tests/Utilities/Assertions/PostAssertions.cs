@@ -1,8 +1,8 @@
 using FluentAssertions;
 using FluentAssertions.Execution;
-using SDET.API.Tests.Models;
+using API.Tests.Models;
 
-namespace SDET.API.Tests.Utilities
+namespace API.Tests.Utilities
 {
     /// <summary>
     /// Assertion extensions for Post model.

@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using System.Text.Json;
-using SDET.API.Tests.Models;
-using SDET.API.Tests.Utilities;
+using API.Tests.Models;
+using API.Tests.Utilities;
 
-namespace SDET.API.Tests.Clients
+namespace API.Tests.Clients
 {
     /// <summary>
     /// Client for interacting with the Posts API.
