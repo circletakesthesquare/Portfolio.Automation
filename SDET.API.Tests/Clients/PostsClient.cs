@@ -25,22 +25,22 @@ namespace SDET.API.Tests.Clients
             PropertyNameCaseInsensitive = true
         };
 
-        public async Task<PostModel?> GetPost(int id)
+        public async Task<Post?> GetPost(int id)
         {
             var response = await _client.GetAsync($"/posts/{id}");
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<PostModel>(content, _jsonOptions);
+            return JsonSerializer.Deserialize<Post>(content, _jsonOptions);
         }
 
-        public async Task<HttpResponseMessage> CreatePost(PostModel post)
+        public async Task<HttpResponseMessage> CreatePost(Post post)
         {
             var json = JsonSerializer.Serialize(post, _jsonOptions);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             return await _client.PostAsync("/posts", content);
         }
 
-        public async Task<HttpResponseMessage> UpdatePost(int id, PostModel post)
+        public async Task<HttpResponseMessage> UpdatePost(int id, Post post)
         {
             var json = JsonSerializer.Serialize(post, _jsonOptions);
             var content = new StringContent(json, Encoding.UTF8, "application/json");

@@ -26,7 +26,7 @@ namespace SDET.API.Tests.Tests
         [Fact]
         public async Task Can_Create_Post()
         {
-            var newPost = new PostModel
+            var newPost = new Post
             {
                 UserId = 1,
                 Title = "Automation Test Title",
@@ -41,7 +41,7 @@ namespace SDET.API.Tests.Tests
         [Fact]
         public async Task Can_Update_Post()
         {
-            var updated = new PostModel
+            var updated = new Post
             {
                 Id = 1,
                 UserId = 1,

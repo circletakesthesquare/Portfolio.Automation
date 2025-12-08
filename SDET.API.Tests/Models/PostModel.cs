@@ -1,7 +1,7 @@
 ﻿using System;
 namespace SDET.API.Tests.Models
 {
-    public class PostModel
+    public class Post
     {
         public int UserId { get; set; }
         public int Id { get; set; }
