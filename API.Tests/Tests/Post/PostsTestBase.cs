@@ -1,8 +1,8 @@
 using AutoFixture;
-using SDET.API.Tests.Models;
+using API.Tests.Models;
 using Xunit.Abstractions;
 
-namespace SDET.API.Tests
+namespace API.Tests
 {
     /// <summary>
     /// Base class for Post-related API tests, providing common setup and utilities.

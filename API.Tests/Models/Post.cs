@@ -1,5 +1,5 @@
 ﻿using System;
-namespace SDET.API.Tests.Models
+namespace API.Tests.Models
 {
     public class Post
     {

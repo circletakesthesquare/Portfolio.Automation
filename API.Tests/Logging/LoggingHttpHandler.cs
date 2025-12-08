@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Serilog;
 
-namespace SDET.API.Tests.Utilities
+namespace API.Tests.Utilities
 {
     public class LoggingHttpHandler : DelegatingHandler
     {
