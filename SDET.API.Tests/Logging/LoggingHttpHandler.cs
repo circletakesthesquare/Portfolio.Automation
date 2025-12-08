@@ -1,35 +1,72 @@
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Text.Json;
 using Serilog;
 
 namespace SDET.API.Tests.Utilities
 {
     public class LoggingHttpHandler : DelegatingHandler
     {
-        private readonly ILogger _logger;
 
-        public LoggingHttpHandler(ILogger logger)
+        public LoggingHttpHandler()
         {
-            _logger = logger;
             InnerHandler = new HttpClientHandler();
         }
 
+        /// <summary>
+        /// Sends an HTTP request and logs the request and response details.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Returns the HTTP response message after logging request and response details.</returns>
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            _logger.Information("REQUEST: {Method} {Uri}", request.Method, request.RequestUri);
+            // --- Log Request ---
+            var requestBody = await ReadAndFormatContentAsync(request.Content, cancellationToken);
 
+            Log.Information(
+                "REQUEST:\nMethod: {Method}\nURL: {Url}\nRequest Body: {Body}",
+                request.Method,
+                request.RequestUri,
+                requestBody
+            );
+
+            // --- Send Request ---
             var response = await base.SendAsync(request, cancellationToken);
 
-            _logger.Information("RESPONSE: {StatusCode} {ReasonPhrase}", response.StatusCode, response.ReasonPhrase);
+            // --- Log Response ---
+            var responseBody = await ReadAndFormatContentAsync(response.Content, cancellationToken);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync(cancellationToken);
-                _logger.Error("RESPONSE CONTENT: {Content}", content);
-            }
+            Log.Information(
+                "RESPONSE:\nStatus: {StatusCode}\nResponse Body: {Body}",
+                response.StatusCode,
+                responseBody
+            );
 
             return response;
+        }
+
+        /// <summary>
+        /// Helper method that reads and formats HTTP content for logging.
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Returns formatted JSON or raw string if content is not JSON.</returns>
+        private static async Task<string> ReadAndFormatContentAsync(HttpContent? content, CancellationToken cancellationToken)
+        {
+            if (content == null) return string.Empty;
+
+            var contentString = await content.ReadAsStringAsync(cancellationToken);
+            if (string.IsNullOrWhiteSpace(contentString)) return string.Empty;
+
+            try
+            {
+                using var jsonDoc = JsonDocument.Parse(contentString);
+                return JsonSerializer.Serialize(jsonDoc, new JsonSerializerOptions { WriteIndented = true });
+            }
+            catch
+            {
+                // Not JSON — return raw string
+                return contentString;
+            }
         }
     }
 }
