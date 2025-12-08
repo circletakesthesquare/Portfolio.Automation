@@ -10,6 +10,7 @@ namespace SDET.API.Tests.Utilities
         public const string Security = "Security";
         public const string Integration = "Integration";
         public const string Regression = "Regression";
+        public const string Smoke = "Smoke";
 
         // CRUD operations
         public const string Get = "Get";
