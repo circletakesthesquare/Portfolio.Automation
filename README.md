@@ -68,8 +68,8 @@ Getting started
 
 Notes
 ---------------
-Tests rely on configuration in SDET.API.Tests/Utilities/Environment.json and helpers in SDET.API.Tests.Utilities.Config.
-The HTTP logging behavior is implemented in SDET.API.Tests.Logging.LoggingHttpHandler.
-The API client lives at SDET.API.Tests.Clients.PostsClient and uses models like SDET.API.Tests.Models.PostModel.
-Randomized test data is generated using AutoFixture via SDET.API.Tests.Tests.PostsTestBase.
-You can group/filter tests by category in Visual Studio Test Explorer or via CLI.
+- Tests rely on configuration in SDET.API.Tests/Utilities/Environment.json and helpers in SDET.API.Tests.Utilities.Config.
+- The HTTP logging behavior is implemented in SDET.API.Tests.Logging.LoggingHttpHandler.
+- The API client lives at SDET.API.Tests.Clients.PostsClient and uses models like SDET.API.Tests.Models.PostModel.
+- Randomized test data is generated using AutoFixture via SDET.API.Tests.Tests.PostsTestBase.
+- You can group/filter tests by category in Visual Studio Test Explorer or via CLI.
