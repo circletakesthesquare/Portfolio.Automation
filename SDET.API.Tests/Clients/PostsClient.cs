@@ -1,8 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json;
 using SDET.API.Tests.Models;
-using SDET.API.Tests.Utilities;
-using Serilog;
 
 namespace SDET.API.Tests.Clients
 {
@@ -49,7 +47,7 @@ namespace SDET.API.Tests.Clients
             var response = await _client.PostAsync("/posts", requestBody);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<Post?>(content);
+            return JsonSerializer.Deserialize<Post?>(content, _jsonOptions);
         }
 
         /// <summary>
@@ -65,7 +63,7 @@ namespace SDET.API.Tests.Clients
             var response = await _client.PutAsync($"/posts/{id}", requestBody);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<Post>(content);
+            return JsonSerializer.Deserialize<Post?>(content, _jsonOptions);
         }
 
         /// <summary>
