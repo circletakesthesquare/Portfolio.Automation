@@ -11,16 +11,16 @@ namespace SDET.API.Tests.Tests
 
         public PostsTests(ITestOutputHelper output) : base(output)
         {
-            _client = new PostsClient(Logger);
+            _client = new PostsClient(CreateHttpClient());
         }
 
         [Fact]
         public async Task Can_Get_Post_By_Id()
         {
-            var post = await _client.GetPost(1);
+            var post = await _client.GetPostById(1);
 
             Assert.NotNull(post);
-            Assert.Equal(1, post!.Id);
+            Assert.Equal(1, post.Id);
         }
 
         [Fact]
@@ -35,7 +35,9 @@ namespace SDET.API.Tests.Tests
 
             var response = await _client.CreatePost(newPost);
 
-            Assert.True(response.IsSuccessStatusCode);
+            Assert.NotNull(response);
+            Assert.Equal("Automation Test Title", response.Title);
+            Assert.Equal("Automation Test Body", response.Body);     
         }
 
         [Fact]
@@ -51,7 +53,8 @@ namespace SDET.API.Tests.Tests
 
             var response = await _client.UpdatePost(1, updated);
 
-            Assert.True(response.IsSuccessStatusCode);
+            Assert.NotNull(updated);
+            Assert.Equal("Updated Title", updated!.Title);
         }
 
         [Fact]
