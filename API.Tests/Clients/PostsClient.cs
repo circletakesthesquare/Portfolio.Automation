@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
 using System.Text.Json;
 using API.Tests.Models;
 using API.Tests.Utilities;
@@ -31,7 +32,14 @@ namespace API.Tests.Clients
         public async Task<Post?> GetPostById(int id)
         {
             var response = await _client.GetAsync(Endpoints.GetPost(id));
+            
+            // Return null if the post wasn't found
+            if (response.StatusCode == HttpStatusCode.NotFound)
+                return null;
+
+            // Throw for other unexpected non-success codes
             response.EnsureSuccessStatusCode();
+            
             var content = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<Post>(content, _jsonOptions);
         }
