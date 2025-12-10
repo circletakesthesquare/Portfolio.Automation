@@ -21,10 +21,10 @@ namespace API.Tests.Tests
         [Trait("Category", Categories.Integration)]
         public async Task Get_Post_By_Id()
         {
-            var randomId = new Random().Next(1,101); // assuming IDs are between 1 and 100
-            var post = await _client.GetPostById(randomId);
+            var validId = IdGenerator.RandomValidPostId();
+            var post = await _client.GetPostById(validId);
 
-            post.ShouldExist(randomId);
+            post.ShouldExist(validId);
         }
 
         [Fact]
@@ -50,9 +50,10 @@ namespace API.Tests.Tests
         public async Task Update_Post()
         {
             // use fixture to generate updated post with test data
-            var updatedPostRequest = GenerateUpdatedPost(1);
+            var validId = IdGenerator.RandomValidPostId();
+            var updatedPostRequest = GenerateUpdatedPost(validId);
 
-            var response = await _client.UpdatePost(1, updatedPostRequest);
+            var response = await _client.UpdatePost(validId, updatedPostRequest);
 
             response.ShouldMatch(updatedPostRequest);
         }
@@ -64,10 +65,27 @@ namespace API.Tests.Tests
         [Trait("Category", Categories.Integration)]
         public async Task Delete_Post()
         {   
-            var idToDelete = new Random().Next(1,101); // assuming IDs are between 1 and 100
+            var idToDelete = IdGenerator.RandomValidPostId();
             var response = await _client.DeletePost(idToDelete);
 
             response.IsSuccessStatusCode.Should().BeTrue("Expected successful deletion response.");
         }
+
+        [Fact]
+        [Trait("Category", Categories.Get)]
+        [Trait("Category", Categories.Post)]
+        [Trait("Category", Categories.Negative)]
+        [Trait("Category", Categories.Integration)]
+        public async Task Get_Post_By_Invalid_Id_Should_Return_NotFound()
+        {
+            var invalidId = IdGenerator.RandomInvalidPostId();
+            var response = await _client.GetPostById(invalidId);
+
+            response.Should().BeNull("Expected null response for invalid post ID.");
+        }
+
+
+
+
     }
 }
