@@ -1,6 +1,5 @@
 name: .NET CI
 
-# trigger CI for .NET tests
 on:
   push:
     branches: ["**"]
