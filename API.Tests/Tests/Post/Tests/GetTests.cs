@@ -1,24 +1,28 @@
-﻿using FluentAssertions;
 using API.Tests.Clients;
 using API.Tests.Utilities;
+using FluentAssertions;
 using Xunit.Abstractions;
 
 namespace API.Tests.Tests
 {
-    public class PostsTests : PostsTestBase
+    /// <summary>
+    /// Tests for retrieving posts via the Posts API.
+    /// </summary>
+    public class GetTests : PostsTestBase
     {
-        private readonly PostsClient _client;
-
-        public PostsTests(ITestOutputHelper output) : base(output)
+        public GetTests(ITestOutputHelper output) : base(output)
         {
             _client = new PostsClient(CreateHttpClient());
         }
+
+        private readonly PostsClient _client;
 
         [Fact]
         [Trait("Category", Categories.Get)]
         [Trait("Category", Categories.Post)]
         [Trait("Category", Categories.Positive)]
         [Trait("Category", Categories.Integration)]
+        [Trait("Category", Categories.Smoke)]
         public async Task Get_Post_By_Id()
         {
             var validId = IdGenerator.RandomValidPostId();
@@ -28,54 +32,41 @@ namespace API.Tests.Tests
         }
 
         [Fact]
-        [Trait("Category", Categories.Create)]
+        [Trait("Category", Categories.Get)]
         [Trait("Category", Categories.Post)]
         [Trait("Category", Categories.Positive)]
         [Trait("Category", Categories.Integration)]
-        public async Task Create_Post()
+        [Trait("Category", Categories.EdgeCase)]
+        public async Task Get_Post_By_Id_Minimum_Valid_Id()
         {
-            // use fixture to generate post with test data
-            var newPostRequest = GeneratePost();
+            var minValidId = IdRanges.MinValidPostId;
+            var post = await _client.GetPostById(minValidId);
 
-            var response = await _client.CreatePost(newPostRequest);
-
-            response.ShouldMatch(newPostRequest);
+            post.ShouldExist(minValidId);
         }
 
         [Fact]
-        [Trait("Category", Categories.Update)]
+        [Trait("Category", Categories.Get)]
         [Trait("Category", Categories.Post)]
         [Trait("Category", Categories.Positive)]
         [Trait("Category", Categories.Integration)]
-        public async Task Update_Post()
+        [Trait("Category", Categories.EdgeCase)]
+        public async Task Get_Post_By_Id_Maximum_Valid_Id()
         {
-            // use fixture to generate updated post with test data
-            var validId = IdGenerator.RandomValidPostId();
-            var updatedPostRequest = GenerateUpdatedPost(validId);
-
-            var response = await _client.UpdatePost(validId, updatedPostRequest);
-
-            response.ShouldMatch(updatedPostRequest);
+            var maxValidId = IdRanges.MaxValidPostId;
+            var post = await _client.GetPostById(maxValidId);
+            
+            post.ShouldExist(maxValidId);
         }
 
-        [Fact]
-        [Trait("Category", Categories.Delete)]
-        [Trait("Category", Categories.Post)]
-        [Trait("Category", Categories.Positive)]
-        [Trait("Category", Categories.Integration)]
-        public async Task Delete_Post()
-        {   
-            var idToDelete = IdGenerator.RandomValidPostId();
-            var response = await _client.DeletePost(idToDelete);
-
-            response.IsSuccessStatusCode.Should().BeTrue("Expected successful deletion response.");
-        }
+        // Negative Tests
 
         [Fact]
         [Trait("Category", Categories.Get)]
         [Trait("Category", Categories.Post)]
         [Trait("Category", Categories.Negative)]
         [Trait("Category", Categories.Integration)]
+        [Trait("Category", Categories.Smoke)]
         public async Task Get_Post_By_Invalid_Id_Should_Return_NotFound()
         {
             var invalidId = IdGenerator.RandomInvalidPostId();
@@ -83,9 +74,5 @@ namespace API.Tests.Tests
 
             response.Should().BeNull("Expected null response for invalid post ID.");
         }
-
-
-
-
     }
 }
