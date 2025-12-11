@@ -1,5 +1,4 @@
-﻿using System;
-namespace API.Tests.Models
+﻿namespace API.Tests.Models
 {
     public class Post
     {
