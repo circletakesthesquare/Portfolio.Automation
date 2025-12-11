@@ -1,0 +1,62 @@
+name: .NET CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Run tests with coverage
+        run: dotnet test --no-build --collect:"XPlat Code Coverage" --logger "trx;LogFileName=test_results.trx" --results-directory ./test-results
+
+      - name: Install ReportGenerator
+        run: dotnet tool install --global dotnet-reportgenerator-globaltool
+
+      - name: Generate Coverage Report
+        run: |
+          reportgenerator \
+            -reports:test-results/**/coverage.cobertura.xml \
+            -targetdir:coverage \
+            -reporttypes:Html
+
+      - name: Publish Test Results to PR
+        if: ${{ github.event.pull_request }}
+        uses: dorny/test-reporter@v1
+        with:
+          name: "API Test Results"
+          path: "test-results/*.trx"
+          reporter: dotnet-trx
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-test-artifacts
+          path: |
+            test-results/
+            **/bin/Debug/net8.0/
+            coverage/
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
