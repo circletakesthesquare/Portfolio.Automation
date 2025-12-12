@@ -4,11 +4,14 @@ using Xunit.Abstractions;
 
 namespace API.Tests.Tests
 {
-    public class UpdateTests : PostsTestBase
+    /// <summary>
+    /// Tests for updating posts via the Posts API.
+    /// </summary>
+    public class UpdatePostTests : PostsTestBase
     {
         private readonly PostsClient _client;
 
-        public UpdateTests(ITestOutputHelper output) : base(output)
+        public UpdatePostTests(ITestOutputHelper output) : base(output)
         {
             _client = new PostsClient(CreateHttpClient());
         }
