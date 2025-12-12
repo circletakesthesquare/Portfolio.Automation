@@ -9,6 +9,9 @@ on:
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write    # allow the action to write to PRs
+      contents: read
 
     steps:
       - name: Checkout repository
@@ -45,6 +48,8 @@ jobs:
           name: "API Test Results"
           path: "test-results/*.trx"
           reporter: dotnet-trx
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
