@@ -2,13 +2,16 @@ name: .NET CI
 
 on:
   push:
-    branches: [ main ]
+    branches: ["**"]
   pull_request:
-    branches: [ main ]
+    branches: ["**"]
 
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write    # allow the action to write to PRs
+      contents: read
 
     steps:
       - name: Checkout repository
@@ -26,7 +29,7 @@ jobs:
         run: dotnet build --no-restore --configuration Release
 
       - name: Run tests with coverage
-        run: dotnet test --no-build --collect:"XPlat Code Coverage" --logger "trx;LogFileName=test_results.trx" --results-directory ./test-results
+        run: dotnet test API.Tests/API.Tests.csproj --collect:"XPlat Code Coverage" --logger "trx;LogFileName=test_results.trx" --results-directory ./test-results
 
       - name: Install ReportGenerator
         run: dotnet tool install --global dotnet-reportgenerator-globaltool
@@ -45,6 +48,8 @@ jobs:
           name: "API Test Results"
           path: "test-results/*.trx"
           reporter: dotnet-trx
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

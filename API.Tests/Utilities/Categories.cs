@@ -20,5 +20,7 @@ namespace API.Tests.Utilities
         
         // Functional areas, add more as needed
         public const string Post = "Post";   
+
+        public const string Comment = "Comment";
     }
 }
