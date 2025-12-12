@@ -7,9 +7,9 @@ namespace API.Tests.Tests
     /// <summary>
     /// Tests for creating posts via the Posts API.
     /// </summary>
-    public class CreateTests : PostsTestBase
+    public class CreatePostTests : PostsTestBase
     {
-        public CreateTests(ITestOutputHelper output) : base(output)
+        public CreatePostTests(ITestOutputHelper output) : base(output)
         {
             _client = new PostsClient(CreateHttpClient());
         }

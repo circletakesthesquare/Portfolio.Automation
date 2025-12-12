@@ -5,9 +5,12 @@ using Xunit.Abstractions;
 
 namespace API.Tests.Tests
 {
-    public class DeleteTests : PostsTestBase
+    /// <summary>
+    /// Tests for deleting posts via the Posts API.
+    /// </summary>
+    public class DeletePostTests : PostsTestBase
     {
-        public DeleteTests(ITestOutputHelper output) : base(output)
+        public DeletePostTests(ITestOutputHelper output) : base(output)
         {
             _client = new PostsClient(CreateHttpClient());
         }
