@@ -33,7 +33,7 @@ public static class IdGenerator
     /// Generates a random valid Album ID within the defined range.
     /// </summary>
     /// <returns>A random valid Album ID.</returns>
-    public static int RandomValidAlbumId() => _random.Next(IdRanges.MinInvalidAlbumId, IdRanges.MaxValidAlbumId + 1);
+    public static int RandomValidAlbumId() => _random.Next(IdRanges.MinValidAlbumId, IdRanges.MaxValidAlbumId + 1);
 
     /// <summary>
     /// Generates a random invalid Album ID within the defined range.
