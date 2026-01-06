@@ -18,5 +18,15 @@ namespace API.Tests.Utilities
         public static string CreateComment => "/comments";
         public static string UpdateComment(int id) => $"/comments/{id}";
         public static string DeleteComment(int id) => $"/comments/{id}";
+
+
+
+        // Albums endpoints
+        public static string GetAlbum(int id) => $"/albums/{id}";
+        public static string GetAllAlbums => "/albums";
+        public static string GetAlbumsByUserId(int userId) => $"/albums?userId={userId}";
+        public static string CreateAlbum => "/albums";
+        public static string UpdateAlbum(int id) => $"/albums/{id}";
+        public static string DeleteAlbum(int id) => $"/albums/{id}";
     }
 }
