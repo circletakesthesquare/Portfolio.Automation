@@ -28,12 +28,21 @@ namespace API.Tests.Utilities
             }
         }
         
+        /// <summary>
+        /// Asserts that the album exists and matches the provided ID.
+        /// </summary>
+        /// <param name="album">The album to check.</param>
+        /// <param name="id">The expected album ID.</param>
         public static void ShouldExist(this Album? album, int id)
         {
             album.Should().NotBeNull("Expected album to exist, but it was null.");
             album!.Id.Should().Be(id, "Expected album ID to match the provided ID.");
         }
 
+        /// <summary>
+        /// Asserts that the album has been deleted (i.e., is null).
+        /// </summary>
+        /// <param name="album">The album to check.</param>
         public static void ShouldBeDeleted(this Album? album)
         {
             album.Should().BeNull("Expected album to not exist, but it was found.");
