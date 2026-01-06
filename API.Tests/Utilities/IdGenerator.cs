@@ -28,4 +28,16 @@ public static class IdGenerator
     /// </summary>
     /// <returns>A random invalid Comment ID.</returns>
     public static int RandomInvalidCommentId() => _random.Next(IdRanges.MinInvalidCommentId, IdRanges.MaxInvalidCommentId + 1);
+
+    /// <summary>
+    /// Generates a random valid Album ID within the defined range.
+    /// </summary>
+    /// <returns>A random valid Album ID.</returns>
+    public static int RandomValidAlbumId() => _random.Next(IdRanges.MinInvalidAlbumId, IdRanges.MaxValidAlbumId + 1);
+
+    /// <summary>
+    /// Generates a random invalid Album ID within the defined range.
+    /// </summary>
+    /// <returns>A random invalid Album ID.</returns>
+    public static int RandomInvalidAlbumId() => _random.Next(IdRanges.MinInvalidAlbumId, IdRanges.MaxInvalidAlbumId + 1);
 }
