@@ -28,7 +28,7 @@ namespace API.Tests.Clients
         /// </summary>
         /// <param name="id">The ID of the album to retrieve.</param>
         /// <returns>The album if found, otherwise null.</returns>
-        public async Task<Album>? GetAlbumById(int id)
+        public async Task<Album?> GetAlbumById(int id)
         {
             var response = await _client.GetAsync(Endpoints.GetAlbum(id));
 
@@ -56,6 +56,23 @@ namespace API.Tests.Clients
 
             response.EnsureSuccessStatusCode();
 
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<List<Album>>(content, _jsonOptions);
+        }
+
+        /// <summary>
+        /// Retrieves all albums.
+        /// </summary>
+        /// <returns>The list of albums if found, otherwise null.</returns>
+        public async Task<List<Album>?> GetAllAlbums()
+        {
+            var response = await _client.GetAsync(Endpoints.GetAllAlbums);
+            
+            if (response.StatusCode == HttpStatusCode.NotFound)
+                return null;
+
+            response.EnsureSuccessStatusCode();
+            
             var content = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<List<Album>>(content, _jsonOptions);
         }
