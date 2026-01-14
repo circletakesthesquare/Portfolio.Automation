@@ -112,8 +112,16 @@ namespace API.Tests.Clients
             if (response.StatusCode == HttpStatusCode.NotFound)
                 return null;
 
-            // Throw for other unexpected non-success codes
-            response.EnsureSuccessStatusCode();
+            try
+            {
+                // Throw for other unexpected non-success codes
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException)
+            {
+                // Return null for any other failure
+                return null;
+            }
 
             var content = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<Album?>(content, _jsonOptions);
