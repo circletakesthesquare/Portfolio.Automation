@@ -1,5 +1,6 @@
 using API.Tests.Clients;
 using API.Tests.Utilities;
+using FluentAssertions;
 using Xunit.Abstractions;
 
 namespace API.Tests.Tests
@@ -78,7 +79,7 @@ namespace API.Tests.Tests
 
             var response = await _client.UpdateAlbum(invalidId, updatedAlbumRequest);
 
-            response.ShouldMatch(updatedAlbumRequest);
+            response.Should().BeNull("Expected null response for invalid album ID.");
         }
 
         [Fact]
