@@ -1,4 +1,5 @@
-
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 namespace UI.Pages
 {
@@ -24,25 +25,41 @@ namespace UI.Pages
             Driver.Navigate().GoToUrl(url);
         }
 
-        protected IWebElement WaitForElementVisible(By locator, int timeoutSeconds = 10)
+        protected IWebElement WaitForElement(By locator, Func<IWebElement, bool> condition)
         {
-            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutSeconds));
-
-            return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(locator));
+            return Wait.Until(driver =>
+            {
+                var element = driver.FindElement(locator);
+                return condition(element) ? element : null;
+            });
         }
 
-        protected IWebElement WaitForElementClickable(By locator, int timeoutSeconds = 10)
+        protected IWebElement WaitForElementVisible(By locator)
         {
-            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutSeconds));
+            return WaitForElement(locator, element => element.Displayed);
+        }
 
-            return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(locator));
+        protected IWebElement WaitForElementClickable(By locator)
+        {
+            return WaitForElement(locator, element =>
+                element.Displayed && element.Enabled
+            );
         }
 
         // actions
         protected void ClickElement(By locator)
         {
             var element = WaitForElementClickable(locator);
-            element.Click();
+
+            try
+            {
+                element.Click(); // try real interaction first
+            }
+            catch (ElementClickInterceptedException)
+            {
+                var js = (IJavaScriptExecutor)Driver;
+                js.ExecuteScript("arguments[0].click();", element); // fallback to JS click
+            }
         }
 
         protected void EnterText(By locator, string text)

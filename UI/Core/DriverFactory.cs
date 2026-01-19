@@ -1,5 +1,6 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using Portfolio.Automation.UI.Core;
 
 namespace UI
 {
