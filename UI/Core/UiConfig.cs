@@ -27,13 +27,13 @@ namespace Portfolio.Automation.UI.Core
                     Directory.CreateDirectory(folder!);
                 }
 
-                var json = JsonSerializer.Serialize(defaultConfig, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText(ConfigFileName, json);
+                var serializedConfig = JsonSerializer.Serialize(defaultConfig, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(ConfigFileName, serializedConfig);
                 return defaultConfig;
             }
 
-            var json = File.ReadAllText(ConfigFileName);
-            return JsonSerializer.Deserialize<UiConfig>(json) ?? new UiConfig();
+            var configJson = File.ReadAllText(ConfigFileName);
+            return JsonSerializer.Deserialize<UiConfig>(configJson) ?? new UiConfig();
         }
     }
 }
