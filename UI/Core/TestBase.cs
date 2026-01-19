@@ -1,3 +1,7 @@
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using Portfolio.Automation.UI.Core;
+
 namespace UI
 {
     /// <summary>
