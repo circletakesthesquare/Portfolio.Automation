@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using Portfolio.Automation.UI.Core;
@@ -7,14 +8,15 @@ namespace UI
     /// <summary>
     /// Base class for UI tests, providing common setup and utilities.
     /// </summary>
-    public abstract class TestBase : IDisposable
+    public abstract class TestBase
     {
 
-        protected IWebDriver Driver;
-        protected WebDriverWait Wait;
-        protected UiConfig Config;
+        protected IWebDriver Driver = null!;
+        protected WebDriverWait Wait = null!;
+        protected UiConfig Config = null!;
 
-        protected TestBase()
+        [SetUp]
+        public void Setup()
         {
             Config = UiConfig.Load();
 
@@ -26,7 +28,8 @@ namespace UI
             Driver.Navigate().GoToUrl(Config.BaseUrl);       
         }
 
-        public void Dispose()
+        [TearDown]
+        public void TearDown()
         {
             try
             {
