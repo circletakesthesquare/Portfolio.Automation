@@ -1,1 +1,12 @@
 ﻿global using Xunit;
+global using Xunit.Abstractions;
+global using FluentAssertions;
+global using FluentAssertions.Execution;
+global using System.Net;
+global using System.Text;
+global using System.Text.Json;
+global using API.Tests.Models;
+global using API.Tests.Clients;
+global using API.Tests.Utilities;
+global using Serilog;
+global using AutoFixture;

@@ -12,13 +12,14 @@ The framework emphasizes:
 
 Project files
 -------------
-- [/.gitignore](.gitignore)
-- [Portfolio.Automation.Framework.sln](Portfolio.Automation.Framework.sln)
-- [README.md](README.md)
+- [`/.gitignore`](.gitignore)
+- [`Portfolio.Automation.Framework.sln`](Portfolio.Automation.Framework.sln)
+- [`README.md`](README.md)
 
 API.Tests
 --------------
-- Project file: [API.Tests/API.Tests.csproj](API.Tests/API.Tests.csproj)
+- Project file: [`API.Tests/API.Tests.csproj`](API.Tests/API.Tests.csproj)
+- Global usings: [`API.Tests.Usings.cs`](API.Tests/Usings.cs)
 
 Clients
 API clients responsible for executing HTTP requests and returning strongly typed responses. Each client maps to a single API resource and encapsulates endpoint-specific behavior. Tests interact only with clients (never raw HTTP) to keep test intent clear and decoupled from transport details.
@@ -38,7 +39,7 @@ Core
   — Common setup and AutoFixture helpers for post-related API tests.
 
 Logging
-- HTTP logging handler: [`API.Tests.Logging.LoggingHttpHandler`](API.Tests/Logging/LoggingHttpHandler.cs) — [API.Tests/Logging/LoggingHttpHandler.cs](API.Tests/Logging/LoggingHttpHandler.cs)
+- HTTP logging handler: [`API.Tests.Logging.LoggingHttpHandler`](API.Tests/Logging/LoggingHttpHandler.cs)
   — Logs outgoing requests and incoming responses for debugging and visibility.
 
 Models
@@ -58,18 +59,18 @@ Tests
   — Coverage for post-related API endpoints.
 
 Utilities
-- Configuration helper: [`API.Tests.Utilities.Config`](API.Tests/Utilities/Config.cs) — [API.Tests/Utilities/Config.cs](API.Tests/Utilities/Config.cs)
-- Environment data: [API.Tests/Utilities/Environment.json](API.Tests/Utilities/Environment.json)
-- Test categories: [`API.Tests.Utilities.Categories`](API.Tests/Utilities/Categories.cs) — [Categories.cs](API.Tests/Utilities/Categories.cs)
+- Configuration helper: [`API.Tests.Utilities.Config`](API.Tests/Utilities/Config.cs)
+- Environment data: [`API.Tests/Utilities/Environment.json`](API.Tests/Utilities/Environment.json)
+- Test categories: [`API.Tests.Utilities.Categories`](API.Tests/Utilities/Categories.cs)
 
 Build/artifacts
-- Build output: [API.Tests/bin](API.Tests/bin/)  
-- MSBuild outputs and assets: [obj folder](API.Tests/obj/)
+- Build output: [`API.Tests/bin`](API.Tests/bin/)  
+- MSBuild outputs and assets: [`obj folder`](API.Tests/obj/)
 
 UI.Tests
 --------------
-- Project file: [UI/UI.csproj](UI/UI.csproj)
-- Global usings: [UI/Usings.cs](UI/Usings.cs)
+- Project file: [`UI/UI.csproj`](UI/UI.csproj)
+- Global usings: [`UI/Usings.cs`](UI/Usings.cs)
 
 Pages
 - Base page: [`UI.Pages.BasePage`](UI/Pages/BasePage.cs) 
@@ -89,12 +90,12 @@ Tests
 
 Utilities
 - UI configuration helper: [`UI.Utilities.UiConfig`](UI/Utilities/UiConfig.cs)
-- Environment data: [UI/Utilities/Environment.json](UI/Utilities/Environment.json)
+- Environment data: [`UI/Utilities/Environment.json`](UI/Utilities/Environment.json)
 - Test categories: [`UI.Utilities.Categories`](UI/Utilities/Categories.cs)
 
 Build/artifacts
-- Build output: [UI/bin](UI/bin/)
-- MSBuild outputs and assets: [obj folder](UI/obj/)
+- Build output: [`UI/bin`](UI/bin/)
+- MSBuild outputs and assets: [`obj folder`](UI/obj/)
 
 Getting started
 ---------------

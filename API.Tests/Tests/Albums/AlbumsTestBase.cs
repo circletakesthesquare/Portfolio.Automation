@@ -1,7 +1,3 @@
-using AutoFixture;
-using Xunit.Abstractions;
-using Api.Tests.Models;
-
 namespace API.Tests
 {
     public abstract class AlbumsTestBase : TestBase

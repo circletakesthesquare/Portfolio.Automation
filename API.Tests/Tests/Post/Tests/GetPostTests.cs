@@ -1,8 +1,3 @@
-using API.Tests.Clients;
-using API.Tests.Utilities;
-using FluentAssertions;
-using Xunit.Abstractions;
-
 namespace API.Tests.Tests
 {
     /// <summary>

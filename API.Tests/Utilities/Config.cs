@@ -1,5 +1,3 @@
-using System.Text.Json;
-
 public static class Config
 {
     private static readonly JsonElement _root;

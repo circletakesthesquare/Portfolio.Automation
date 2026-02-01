@@ -1,8 +1,4 @@
-﻿using API.Tests.Clients;
-using API.Tests.Utilities;
-using Xunit.Abstractions;
-
-namespace API.Tests.Tests
+﻿namespace API.Tests.Tests
 {
     /// <summary>
     /// Tests for updating posts via the Posts API.

@@ -1,10 +1,4 @@
-﻿using System.Net;
-using System.Text;
-using System.Text.Json;
-using API.Tests.Models;
-using API.Tests.Utilities;
-
-namespace API.Tests.Clients
+﻿namespace API.Tests.Clients
 {
     /// <summary>
     /// Client for interacting with the Posts API.

@@ -1,7 +1,3 @@
-using API.Tests.Utilities;
-using Serilog;
-using Xunit.Abstractions;
-
 namespace API.Tests
 {
     /// <summary>
