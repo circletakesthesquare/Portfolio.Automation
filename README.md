@@ -2,8 +2,6 @@
 
 Overview
 --------
-A small .NET API automation framework for testing API endpoints. Tests and framework code live under the `API.Tests` project. The framework contains an API client, request/response models, logging helpers, test base classes, and configuration utilities.
-
 A growing .NET automation framework covering API and UI testing. The goal of this project is to demonstrate scalable automation patterns, strong test structure, and reusable infrastructure across test types. API tests live under the `API.Tests` project and focus on client-based API validation. UI tests are being introduced with a shared test base, page abstractions, and reusable helpers to support browser-based automation.
 
 The framework emphasizes:
