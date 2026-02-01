@@ -1,6 +1,3 @@
-using System.Text.Json;
-using Serilog;
-
 namespace API.Tests.Utilities
 {
     public class LoggingHttpHandler : DelegatingHandler

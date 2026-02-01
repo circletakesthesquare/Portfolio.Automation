@@ -1,9 +1,3 @@
-using System.Net;
-using System.Text;
-using System.Text.Json;
-using Api.Tests.Models;
-using API.Tests.Utilities;
-
 namespace API.Tests.Clients
 {
     /// <summary>

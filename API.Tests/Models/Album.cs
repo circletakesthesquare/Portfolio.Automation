@@ -1,4 +1,4 @@
-namespace Api.Tests.Models
+namespace API.Tests.Models
 {
     public class Album
     {

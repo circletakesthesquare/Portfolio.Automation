@@ -1,7 +1,3 @@
-using AutoFixture;
-using API.Tests.Models;
-using Xunit.Abstractions;
-
 namespace API.Tests
 {
     /// <summary>
