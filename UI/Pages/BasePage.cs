@@ -1,6 +1,3 @@
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-
 namespace UI.Pages
 {
     /// <summary>
