@@ -1,8 +1,3 @@
-using FluentAssertions;
-using FluentAssertions.Execution;
-using NUnit.Framework;
-using Portfolio.Automation.UI.Core;
-
 namespace UI.Tests.TextBox
 {
     public class TextBoxTests : TestBase

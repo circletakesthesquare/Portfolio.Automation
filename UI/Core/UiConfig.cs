@@ -1,5 +1,3 @@
-using System.Text.Json;
-
 namespace Portfolio.Automation.UI.Core
 {
     public class UiConfig
