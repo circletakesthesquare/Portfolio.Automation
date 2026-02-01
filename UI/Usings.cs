@@ -1,0 +1,9 @@
+global using FluentAssertions;
+global using FluentAssertions.Execution;
+global using OpenQA.Selenium;
+global using OpenQA.Selenium.Chrome;
+global using OpenQA.Selenium.Support.UI;
+global using NUnit.Framework;
+global using Portfolio.Automation.UI.Core;
+global using System.Text.Json;
+global using UI.Pages;
