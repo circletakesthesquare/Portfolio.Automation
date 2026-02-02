@@ -40,4 +40,16 @@ public static class IdGenerator
     /// </summary>
     /// <returns>A random invalid Album ID.</returns>
     public static int RandomInvalidAlbumId() => _random.Next(IdRanges.MinInvalidAlbumId, IdRanges.MaxInvalidAlbumId + 1);
+
+    /// <summary>
+    /// Generates a random valid Photo ID within the defined range.
+    /// </summary>
+    /// <returns>A random valid Photo ID.</returns>
+    public static int RandomValidPhotoId() => _random.Next(IdRanges.MinValidPhotoId, IdRanges.MaxValidPhotoId + 1);
+
+    /// <summary>
+    /// Generates a random invalid Photo ID within the defined range.
+    /// </summary>
+    /// <returns>A random invalid Photo ID.</returns>
+    public static int RandomInvalidPhotoId() => _random.Next(IdRanges.MinInvalidPhotoId, IdRanges.MaxInvalidPhotoId + 1);
 }

@@ -24,5 +24,7 @@ namespace API.Tests.Utilities
         public const string Comment = "Comment";
 
         public const string Album = "Album";
+
+        public const string Photo = "Photo";
     }
 }

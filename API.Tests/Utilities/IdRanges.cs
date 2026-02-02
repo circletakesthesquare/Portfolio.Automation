@@ -15,10 +15,15 @@ public static class IdRanges
     public const int MinInvalidCommentId = -500;
     public const int MaxInvalidCommentId = 0;
 
-
     // Album ID Ranges
     public const int MinValidAlbumId = 1;
     public const int MaxValidAlbumId = 100;
     public const int MinInvalidAlbumId = -100;
     public const int MaxInvalidAlbumId = 0;
+
+    // Photo ID Ranges
+    public const int MinValidPhotoId = 1;
+    public const int MaxValidPhotoId = 5000;
+    public const int MinInvalidPhotoId = -5000;
+    public const int MaxInvalidPhotoId = 0;
 }
