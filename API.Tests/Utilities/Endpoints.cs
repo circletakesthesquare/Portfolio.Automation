@@ -20,7 +20,6 @@ namespace API.Tests.Utilities
         public static string DeleteComment(int id) => $"/comments/{id}";
 
 
-
         // Albums endpoints
         public static string GetAlbum(int id) => $"/albums/{id}";
         public static string GetAllAlbums => "/albums";
@@ -28,5 +27,16 @@ namespace API.Tests.Utilities
         public static string CreateAlbum => "/albums";
         public static string UpdateAlbum(int id) => $"/albums/{id}";
         public static string DeleteAlbum(int id) => $"/albums/{id}";
+
+
+        // Photos endpoints
+        public static string GetPhoto(int id) => $"/photos/{id}";
+        public static string GetAllPhotos => "/photos";
+        public static string GetPhotosByAlbumId(int albumId) => $"/photos?albumId={albumId}";
+        public static string CreatePhoto => "/photos";
+        public static string UpdatePhoto(int id) => $"/photos/{id}";
+        public static string DeletePhoto(int id) => $"/photos/{id}";
+
+
     }
 }
