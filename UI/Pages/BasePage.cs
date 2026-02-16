@@ -2,41 +2,62 @@ namespace UI.Pages
 {
     /// <summary>
     /// Base class for all page objects, providing common functionality.
+    /// Now implements IPageActions to be decorator-friendly, allowing cross-cutting concerns to be added without modifying page logic.
+    /// Can be used directly or wrapped by decorators.
     /// </summary>
-    public abstract class BasePage
+    public abstract class BasePage : IPageActions
     {
         protected IWebDriver Driver {get;}
         protected WebDriverWait Wait {get;}
 
-
         protected BasePage(IWebDriver driver, WebDriverWait wait)
         {
-            Driver = driver;
-            Wait = wait;
+            Driver = driver ?? throw new ArgumentNullException(nameof(driver));
+            Wait = wait ?? throw new ArgumentNullException(nameof(wait));
         }
 
-        #region Generic Methods
+        #region IPageActions Implementation
 
         public void GoToUrl(string url)
         {
-            Driver.Navigate().GoToUrl(url);
+            if (string.IsNullOrWhiteSpace(url))
+                throw new ArgumentException("URL cannot be null or empty.", nameof(url));
+
+                Driver.Navigate().GoToUrl(url);
         }
 
-        protected IWebElement WaitForElement(By locator, Func<IWebElement, bool> condition)
+        public IWebElement WaitForElement(By locator, Func<IWebElement, bool> condition)
         {
+            if(locator == null)
+                throw new ArgumentNullException(nameof(locator));
+
+            if(condition == null)
+                throw new ArgumentNullException(nameof(condition));
+
             return Wait.Until(driver =>
             {
-                var element = driver.FindElement(locator);
-                return condition(element) ? element : null;
+                try
+                {
+                    var element = driver.FindElement(locator);
+                    return condition(element) ? element : null;
+                }
+                catch (NoSuchElementException)
+                {
+                    return null;
+                }
+                catch (StaleElementReferenceException)
+                {
+                    return null;
+                }
             });
         }
 
-        protected IWebElement WaitForElementVisible(By locator)
+        public IWebElement WaitForElementVisible(By locator)
         {
             return WaitForElement(locator, element => element.Displayed);
         }
 
-        protected IWebElement WaitForElementClickable(By locator)
+        public IWebElement WaitForElementClickable(By locator)
         {
             return WaitForElement(locator, element =>
                 element.Displayed && element.Enabled
@@ -44,7 +65,7 @@ namespace UI.Pages
         }
 
         // actions
-        protected void ClickElement(By locator)
+        public void ClickElement(By locator)
         {
             var element = WaitForElementClickable(locator);
 
@@ -59,16 +80,68 @@ namespace UI.Pages
             }
         }
 
-        protected void EnterText(By locator, string text)
+        public void EnterText(By locator, string text)
         {
+            if(text == null)
+                throw new ArgumentNullException(nameof(text), "Text cannot be null.");
+
             var element = WaitForElementVisible(locator);
             element.Clear();
             element.SendKeys(text);
         }
 
-        protected string GetElementText(By locator)
+        public string GetElementText(By locator)
         {
             return WaitForElementVisible(locator).Text;
+        }
+
+        public void ScrollToElement(By locator)
+        {
+            if (locator == null)
+                throw new ArgumentNullException(nameof(locator));
+
+            var element = WaitForElementVisible(locator);
+            var js = (IJavaScriptExecutor)Driver;
+
+            // Scroll element into view, centered if possible
+            js.ExecuteScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});", element);
+        }
+
+        public bool IsActionSuccessful(By locator, Func<IWebElement, bool> successCondition, int timeoutInSeconds = 5)
+        {
+            if (locator == null)
+                throw new ArgumentNullException(nameof(locator));
+
+            if (successCondition == null)
+                throw new ArgumentNullException(nameof(successCondition));
+
+            try
+            {
+                var tempWait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutInSeconds));
+
+                tempWait.Until(driver =>
+                {
+                    try
+                    {
+                        var element = driver.FindElement(locator);
+                        return successCondition(element);
+                    }
+                    catch (NoSuchElementException)
+                    {
+                        return false;
+                    }
+                    catch (StaleElementReferenceException)
+                    {
+                        return false;
+                    }
+                });
+
+                return true;
+            }
+            catch (WebDriverTimeoutException)
+            {
+                return false; // Action did not lead to expected condition within timeout
+            }
         }
 
         #endregion
