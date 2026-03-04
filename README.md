@@ -2,7 +2,7 @@
 
 Overview
 --------
-A growing .NET automation framework covering API and UI testing. The goal of this project is to demonstrate scalable automation patterns, strong test structure, and reusable infrastructure across test types. API tests live under the `API.Tests` project and focus on client-based API validation. UI tests are being introduced with a shared test base, page abstractions, and reusable helpers to support browser-based automation.
+A .NET automation framework covering API and UI testing. The goal of this project is to demonstrate scalable automation patterns, strong test structure, and reusable infrastructure across test types. API tests live under the `API.Tests` project and focus on client-based API validation. UI tests live under the `UI` project and use a decorator-based page object model with structured logging, reusable assertions, and menu-driven navigation.
 
 The framework emphasizes:
 - Clear test base inheritance
@@ -73,24 +73,44 @@ UI.Tests
 - Global usings: [`UI/Usings.cs`](UI/Usings.cs)
 
 Pages
-- Base page: [`UI.Pages.BasePage`](UI/Pages/BasePage.cs) 
-  — common Selenium helpers and wait abstractions
+Page objects and the interfaces and abstractions that support them. Concrete page classes extend `DecoratedBasePage` to inherit automatic logging without any manual decorator setup.
+
+- Page actions interface: [`UI.Pages.IPageActions`](UI/Pages/IPageActions.cs)
+  — contract defining all common page interactions; enables the decorator pattern
+- Base page actions: [`UI.Pages.BasePageActions`](UI/Pages/BasePageActions.cs)
+  — core Selenium implementation of `IPageActions`; handles waits, clicks, text entry, and scrolling
+- Decorated base page: [`UI.Pages.DecoratedBasePage`](UI/Pages/DecoratedBasePage.cs)
+  — abstract base class that composes `BasePageActions` and `LoggingPageActionsDecorator` automatically; extend this for all page objects
+- Base page: [`UI.Pages.BasePage`](UI/Pages/BasePage.cs)
+  — legacy base page retained for reference; superseded by `DecoratedBasePage`
+- Navigation helper: [`UI.Pages.NavigationHelper`](UI/Pages/NavigationHelper.cs)
+  — utility for navigating the site via menu clicks rather than direct URLs
 - Text Box page: [`UI.Pages.TextBoxPage`](UI/Pages/TextBoxPage.cs)
-  — page object model for the Text Box form
+  — page object model for the Text Box form; extends `DecoratedBasePage`
+
+Decorators
+- Logging decorator: [`UI.Decorators.LoggingPageActionsDecorator`](UI/Decorators/LoggingPageActionsDecorator.cs)
+  — wraps any `IPageActions` instance to add method entry/exit logging, execution timing, exception details, and sensitive data masking
 
 Core
 - Test base: [`UI.Core.TestBase`](UI/Core/TestBase.cs)
-  — shared WebDriver lifecycle, waits, and configuration
-- Text Box test base: [`UI.Core.TextBoxTestBase`](UI/Core/TextBoxTestBase.cs)
-  — shared setup and data helpers for Text Box UI tests
+  — shared WebDriver lifecycle, logger, config initialization, and teardown for all UI tests
+- Driver factory: [`UI.Core.DriverFactory`](UI/Core/DriverFactory.cs)
+  — creates and configures `IWebDriver` instances based on `UiConfig` settings
+- UI config: [`UI.Core.UiConfig`](UI/Core/UiConfig.cs)
+  — loads browser configuration from `appsettings.json` (base URL, browser, headless mode, timeout)
+
+Logging
+- Logger config: [`UI.Logging.LoggerConfig`](UI/Logging/LoggerConfig.cs)
+  — centralized Serilog setup; enriches log entries with the current test name
 
 Tests
-- Test(s): [`UI.Tests.TextBoxTests`](UI/Tests/TextBoxTests.cs)
-  — positive and negative form submission scenarios
+- Text Box tests: [`UI.Tests.TextBox.TextBoxTests`](UI/Tests/TextBox/TextBoxTests.cs)
+  — positive, negative, and edge case scenarios for form submission
 
 Utilities
-- UI configuration helper: [`UI.Utilities.UiConfig`](UI/Utilities/UiConfig.cs)
-- Environment data: [`UI/Utilities/Environment.json`](UI/Utilities/Environment.json)
+- Assertions: [`UI.Utilities.Assertions.TextBoxPageAssertions`](UI/Utilities/Assertions/TextBoxPageAssertions.cs)
+  — structured assertion helper for `TextBoxPage` output; uses NUnit assertion scopes with logging
 - Test categories: [`UI.Utilities.Categories`](UI/Utilities/Categories.cs)
 
 Build/artifacts
@@ -108,7 +128,7 @@ Getting started
    dotnet test API.Tests/API.Tests.csproj -c Debug
 
 3. Run UI tests:
-   dotnet test UI.Tests/UI.Tests.csproj   
+   dotnet test UI/UI.csproj
 
 4. Run a single test (example):
    dotnet test API.Tests/API.Tests.csproj --filter FullyQualifiedName~API.Tests.Tests.PostsTests
@@ -138,3 +158,6 @@ Notes & Design Decisions
 - Randomized but controlled test data is generated using AutoFixture via domain test base classes (e.g. `PostsTestBase`), enabling expressive tests while avoiding duplicated setup code.
 - Test base classes provide shared setup, helpers, and conventions, keeping individual tests focused on behavior rather than orchestration.
 - Tests are categorized consistently and can be filtered via Visual Studio Test Explorer or the `dotnet test` CLI to support targeted execution (e.g. smoke, regression, negative paths).
+- UI page interactions are decoupled from logging via the decorator pattern. `BasePageActions` handles raw Selenium operations; `LoggingPageActionsDecorator` wraps it to add logging, timing, and error detail. `DecoratedBasePage` composes this chain automatically, so concrete page objects inherit full observability by extension alone — no logging code in the pages themselves.
+- UI logging is handled by Serilog via `LoggerConfig`, which enriches all entries with the current test name for easy filtering across parallel or sequential runs.
+- Page-level assertions are extracted into dedicated assertion classes (e.g. `TextBoxPageAssertions`) to keep test methods focused on behavior rather than assertion mechanics.
